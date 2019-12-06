@@ -435,6 +435,7 @@ class LaneNetPostProcessor(object):
             'mask_image': mask_image,
             'fit_params': fit_params,
             'source_image': source_image,
+            'src_lane_pts': src_lane_pts
         }
 
         return ret
