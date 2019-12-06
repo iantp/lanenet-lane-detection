@@ -127,7 +127,7 @@ def test_lanenet_batch(src_dir, weights_path, save_dir):
 
             image_lane_predictions[input_image_name] = lane_predictions
         with open('predictions.json') as predictions_file:
-        json.dump(image_lane_predictions, predictions_file)
+            json.dump(image_lane_predictions, predictions_file)
 
     return
 
