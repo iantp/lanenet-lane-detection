@@ -33,6 +33,7 @@ CFG = global_config.cfg
 # For evaluating performance on tuSimple
 H_SAMPLES = [160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710]
 
+
 def init_args():
     """
 
@@ -113,7 +114,7 @@ def test_lanenet_batch(src_dir, weights_path, save_dir):
             os.makedirs(output_image_dir, exist_ok=True)
             output_image_path = ops.join(output_image_dir, input_image_name)
             if ops.exists(output_image_path):
-                continue
+                raise Exception('Image already exists in output directory')
 
             cv2.imwrite(output_image_path, postprocess_result['source_image'])
 
@@ -122,11 +123,11 @@ def test_lanenet_batch(src_dir, weights_path, save_dir):
             for src_lane_pts in postprocess_result['src_lane_pts']:
                 x_pts, y_pts = zip(*src_lane_pts)
                 f = interp1d(y_pts, x_pts)
-                predictions = [f(y) if min(y_pts) <= y < max(y_pts) else -2 for y in H_SAMPLES ]
+                predictions = [float(f(y)) if min(y_pts) <= y < max(y_pts) else -2 for y in H_SAMPLES ]
                 lane_predictions.append(predictions)
 
-            image_lane_predictions[input_image_name] = lane_predictions
-        with open('predictions.json') as predictions_file:
+            image_lane_predictions[image_path] = lane_predictions
+        with open('predictions.json', 'w') as predictions_file:
             json.dump(image_lane_predictions, predictions_file)
 
     return
