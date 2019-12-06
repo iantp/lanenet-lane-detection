@@ -119,7 +119,7 @@ def test_lanenet_batch(src_dir, weights_path, save_dir):
 
             lane_predictions = []
 
-            for src_lane_pts in postprocess_result['src_lane_pts'][0]:
+            for src_lane_pts in postprocess_result['src_lane_pts']:
                 x_pts, y_pts = zip(*src_lane_pts)
                 f = interp1d(y_pts, x_pts)
                 predictions = [f(y) if min(y_pts) <= y < max(y_pts) else -2 for y in H_SAMPLES ]
