@@ -8,6 +8,8 @@
 """
 test LaneNet model on single image
 """
+import sys
+sys.path.append("/content/")
 import argparse
 import os.path as ops
 import time
